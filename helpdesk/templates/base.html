@@ -1,0 +1,39 @@
+{# Every page extends this template, so the header, menu and footer are written once. #}
+{% macro nav_link(endpoint, label) %}
+  {# aria-current tells screen reader users which page they are on. #}
+  <li><a href="{{ url_for(endpoint) }}"{% if request.endpoint == endpoint %} aria-current="page"{% endif %}>{{ label }}</a></li>
+{% endmacro %}
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Home{% endblock %} | Netheret help desk</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  {# The skip link is the first thing a keyboard user reaches. #}
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="wrap header-row">
+      <a class="brand" href="{{ url_for('main.home') }}">Netheret <span>help desk</span></a>
+      <nav aria-label="Main">
+        <ul class="nav-list">
+          {{ nav_link('main.home', 'Home') }}
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap" tabindex="-1">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>Netheret IT Support Solutions is a made-up company used for teaching.</p>
+    </div>
+  </footer>
+</body>
+</html>
